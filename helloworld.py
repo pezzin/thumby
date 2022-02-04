@@ -35,21 +35,17 @@ thumby.display.setFPS(60)
 
 while(1):
     t0 = time.ticks_ms()   # Get the current time in milliseconds
-    thumby.display.fill(0) # Fill canvas to black to make it 'blank' 
+    thumby.display.fill(0) # Fill canvas to black to make it 'blank'
+    bobRate = 250 # How fast the animation is (higher is slower, arbitrary)
+    bobRange = 5  # The range in pixels of the bob (how far it moves up/down, -5px to 5px)
 
-bobRate = 250 # How fast the animation is (higher is slower, arbitrary)
-bobRange = 5  # The range in pixels of the bob (how far it moves up/down, -5px to 5px)
+    # Calculate number of pixels to offset sprite for bob animation
+    bobOffset = math.sin(t0 / bobRate) * bobRange
 
-# Calculate number of pixels to offset sprite for bob animation
-bobOffset = math.sin(t0 / bobRate) * bobRange
+    # Center the sprite using screen and bitmap dimensions and apply bob offset
+    thumbySprite.x = int((thumby.display.width/2) - (32/2))
+    thumbySprite.y = int(round((thumby.display.height/2) - (32/2) + bobOffset))
 
-
-# Center the sprite using screen and bitmap dimensions and apply bob offset
-thumbySprite.x = int((thumby.display.width/2) - (32/2))
-thumbySprite.y = int(round((thumby.display.height/2) - (32/2) + bobOffset))
-
-
-# Display the bitmap using bitmap data, position, and bitmap dimensions
-thumby.display.drawSprite(thumbySprite)
-thumby.display.update()
-
+    # Display the bitmap using bitmap data, position, and bitmap dimensions
+    thumby.display.drawSprite(thumbySprite)
+    thumby.display.update()
